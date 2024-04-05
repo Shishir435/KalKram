@@ -1,10 +1,11 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
+import InterText from './components/InterText';
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <Text>App</Text>
+      <InterText>App hi</InterText>
     </View>
   );
 };
@@ -12,5 +13,7 @@ const App = () => {
 export default App;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    padding: 4,
+  },
 });
