@@ -1,11 +1,18 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import InterText from './components/InterText';
-
+// import Login from './screens/auth/Login';
+import AuthCard from './components/AuthCard';
 const App = () => {
   return (
     <View style={styles.container}>
-      <InterText>App hi</InterText>
+      {/* <Login /> */}
+      <AuthCard
+        pageHeading="Login to your account"
+        pageSubHeading="Please sign in to your account"
+        authDescription="Don't have an account?"
+        AuthActionTitle="Register"
+        AuthAction={() => {}}
+      />
     </View>
   );
 };
@@ -13,7 +20,5 @@ const App = () => {
 export default App;
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 4,
-  },
+  container: {},
 });
