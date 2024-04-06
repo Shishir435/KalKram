@@ -6,8 +6,6 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import {Link} from '../../components/Link';
 import {LoginSchema, LoginSchemaType} from '../../lib/zodSchema';
-import InterText from '../../components/InterText';
-import {DANGER_COLOR} from '../../lib/color';
 import {zodResolver} from '@hookform/resolvers/zod';
 const Login = () => {
   const {
@@ -46,15 +44,11 @@ const Login = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              error={errors.email?.message}
             />
           )}
           name="email"
         />
-        {errors.email && (
-          <InterText style={styles.error}>
-            {errors.email.message || ''}
-          </InterText>
-        )}
         <Controller
           control={control}
           rules={{required: true}}
@@ -66,15 +60,11 @@ const Login = () => {
               onChangeText={onChange}
               value={value}
               inputType="PASSWORD"
+              error={errors.password?.message}
             />
           )}
           name="password"
         />
-        {errors.password && (
-          <InterText style={styles.error}>
-            {errors.password.message || ''}
-          </InterText>
-        )}
         <Link
           title="Forget Password?"
           onPress={() => {
@@ -100,8 +90,5 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 16,
-  },
-  error: {
-    color: DANGER_COLOR,
   },
 });

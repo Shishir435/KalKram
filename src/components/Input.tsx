@@ -1,8 +1,9 @@
 import {Pressable, StyleSheet, TextInput, View} from 'react-native';
 import React, {useState} from 'react';
 import InterText from './InterText';
-import {HEADING, SUB_HEADING} from '../lib/color';
+import {DANGER_COLOR, HEADING, SUB_HEADING} from '../lib/color';
 import Icon from 'react-native-vector-icons/Feather';
+import ErrorComponent from './Errro';
 
 interface InputProps {
   label: string;
@@ -11,6 +12,7 @@ interface InputProps {
   onChangeText: (text: string) => void;
   value: string;
   inputType?: 'TEXT' | 'PASSWORD';
+  error?: string;
 }
 export const Input = ({
   label,
@@ -19,10 +21,9 @@ export const Input = ({
   onChangeText,
   value,
   inputType = 'TEXT',
+  error,
 }: InputProps) => {
-  console.log(inputType === 'PASSWORD');
   const [show, setShow] = useState(false);
-  console.log(show);
   return (
     <View style={styles.container}>
       <InterText style={styles.label}>{label}</InterText>
@@ -32,7 +33,11 @@ export const Input = ({
           onBlur={onBlur}
           onChangeText={onChangeText}
           value={value}
-          style={styles.input}
+          style={
+            error
+              ? [styles.input, styles.errorInput]
+              : [styles.input, styles.neutralInput]
+          }
           secureTextEntry={inputType === 'PASSWORD' && !show}
         />
         {inputType === 'PASSWORD' && (
@@ -45,6 +50,7 @@ export const Input = ({
           </Pressable>
         )}
       </View>
+      <ErrorComponent error={error || ''} />
     </View>
   );
 };
@@ -62,7 +68,6 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: SUB_HEADING,
     height: 52,
     borderRadius: 8,
     padding: 4,
@@ -76,5 +81,11 @@ const styles = StyleSheet.create({
     right: 16,
     top: 16,
     width: 24,
+  },
+  errorInput: {
+    borderColor: DANGER_COLOR,
+  },
+  neutralInput: {
+    borderColor: SUB_HEADING,
   },
 });
