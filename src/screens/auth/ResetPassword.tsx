@@ -9,7 +9,8 @@ import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-
+// import Config from 'react-native-config';
+// console.log(Config.APPWRITE_ID);
 const ResetPassword = () => {
   const {
     handleSubmit,
