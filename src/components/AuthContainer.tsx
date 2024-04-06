@@ -8,17 +8,19 @@ interface AuthCardProps {
   children?: React.ReactNode;
   pageHeading: string;
   pageSubHeading: string;
-  authDescription: string;
-  authActionTitle: string;
-  authAction: () => void;
+  authDescription?: string;
+  authActionTitle?: string;
+  authAction?: () => void;
+  showFooter?: boolean;
 }
-const AuthCard = ({
+const AuthContainer = ({
   children,
   pageHeading,
   pageSubHeading,
   authAction,
   authActionTitle,
   authDescription,
+  showFooter = true,
 }: AuthCardProps) => {
   return (
     <View style={styles.container}>
@@ -27,25 +29,31 @@ const AuthCard = ({
         <InterText style={styles.subHeading}>{pageSubHeading}</InterText>
       </View>
       <View>{children}</View>
-      <View style={styles.divider}>
-        <View style={styles.line} />
-        <InterText>Or signin with </InterText>
-        <View style={styles.line} />
-      </View>
-      <View style={styles.socials}>
-        <View style={styles.circle}>
-          <Icon.google height={24} width={24} />
-        </View>
-      </View>
-      <View style={styles.footer}>
-        <InterText style={styles.authDescription}>{authDescription}</InterText>
-        <Link title={authActionTitle} onPress={authAction} />
-      </View>
+      {showFooter && (
+        <>
+          <View style={styles.divider}>
+            <View style={styles.line} />
+            <InterText>Or signin with </InterText>
+            <View style={styles.line} />
+          </View>
+          <View style={styles.socials}>
+            <View style={styles.circle}>
+              <Icon.google height={24} width={24} />
+            </View>
+          </View>
+          <View style={styles.footer}>
+            <InterText style={styles.authDescription}>
+              {authDescription || ''}
+            </InterText>
+            <Link title={authActionTitle || ''} onPress={authAction} />
+          </View>
+        </>
+      )}
     </View>
   );
 };
 
-export default AuthCard;
+export default AuthContainer;
 
 const styles = StyleSheet.create({
   container: {

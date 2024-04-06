@@ -1,6 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
-import AuthCard from '../../components/AuthCard';
+import AuthContainer from '../../components/AuthContainer';
 import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {SignupSchema, SignupSchemaType} from '../../lib/zodSchema';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -35,7 +35,7 @@ const Signup = () => {
     }
   };
   return (
-    <AuthCard
+    <AuthContainer
       pageHeading="Create your new account"
       pageSubHeading="Create an account to start looking for the food you like"
       authDescription="Have an acount"
@@ -120,7 +120,7 @@ const Signup = () => {
           onPress={handleSubmit(onSubmit)}
         />
       </View>
-    </AuthCard>
+    </AuthContainer>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {StyleSheet, View} from 'react-native';
-import AuthCard from '../../components/AuthCard';
+import AuthContainer from '../../components/AuthContainer';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import {Link} from '../../components/Link';
@@ -27,7 +27,7 @@ const Login = () => {
     reset();
   };
   return (
-    <AuthCard
+    <AuthContainer
       pageHeading="Login to your account"
       pageSubHeading="Please sign in to your account"
       authDescription="Don't have an account?"
@@ -77,7 +77,7 @@ const Login = () => {
           onPress={handleSubmit(onSubmit)}
         />
       </View>
-    </AuthCard>
+    </AuthContainer>
   );
 };
 
