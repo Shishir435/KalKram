@@ -63,7 +63,7 @@ export const OtpSchema = z.object({
     }),
 });
 
-export type OtpType = z.infer<typeof OtpSchema>;
+export type OtpSchemaType = z.infer<typeof OtpSchema>;
 
 export const ResetPasswordSchema = z.object({
   newPassword: PasswordSchema,

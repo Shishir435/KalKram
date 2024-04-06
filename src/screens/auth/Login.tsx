@@ -73,6 +73,7 @@ const Login = () => {
         />
         <Button
           title="Sign In"
+          role="button"
           buttonStyle={styles.button}
           onPress={handleSubmit(onSubmit)}
         />

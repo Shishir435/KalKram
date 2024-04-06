@@ -116,6 +116,7 @@ const Signup = () => {
         />
         <Button
           title="Register"
+          role="button"
           buttonStyle={styles.button}
           onPress={handleSubmit(onSubmit)}
         />

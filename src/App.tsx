@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import ForgetPassword from './screens/auth/ForgetPassword';
+// import ForgetPassword from './screens/auth/ForgetPassword';
+import EmailVarification from './screens/auth/EmailVarification';
 // import Login from './screens/auth/Login';
 // import Signup from './screens/auth/Signup';
 const App = () => {
@@ -8,7 +9,8 @@ const App = () => {
     <View style={styles.container}>
       {/* <Login /> */}
       {/* <Signup /> */}
-      <ForgetPassword />
+      {/* <ForgetPassword /> */}
+      <EmailVarification />
     </View>
   );
 };
