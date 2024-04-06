@@ -65,9 +65,14 @@ export const OtpSchema = z.object({
 
 export type OtpSchemaType = z.infer<typeof OtpSchema>;
 
-export const ResetPasswordSchema = z.object({
-  newPassword: PasswordSchema,
-  confirmPassword: PasswordSchema,
-});
+export const ResetPasswordSchema = z
+  .object({
+    newPassword: PasswordSchema,
+    confirmPassword: PasswordSchema,
+  })
+  .refine(data => data.confirmPassword === data.newPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
 
-export type ResetPasswordSchema = z.infer<typeof ResetPasswordSchema>;
+export type ResetPasswordSchemaType = z.infer<typeof ResetPasswordSchema>;
