@@ -35,6 +35,7 @@ const Login = () => {
       authAction={() => {}}>
       <View style={styles.container}>
         <Controller
+          name="email"
           control={control}
           rules={{required: true}}
           render={({field: {onBlur, onChange, value}}) => (
@@ -47,9 +48,9 @@ const Login = () => {
               error={errors.email?.message}
             />
           )}
-          name="email"
         />
         <Controller
+          name="password"
           control={control}
           rules={{required: true}}
           render={({field: {onBlur, onChange, value}}) => (
@@ -63,7 +64,6 @@ const Login = () => {
               error={errors.password?.message}
             />
           )}
-          name="password"
         />
         <Link
           title="Forget Password?"
@@ -85,8 +85,8 @@ export default Login;
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 32,
-    gap: 16,
+    marginTop: 32,
+    gap: 2,
   },
   button: {
     marginVertical: 16,

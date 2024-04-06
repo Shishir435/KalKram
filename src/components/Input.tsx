@@ -59,8 +59,8 @@ export default Input;
 
 const styles = StyleSheet.create({
   container: {
-    gap: 6,
-    marginVertical: 8,
+    gap: 2,
+    marginVertical: 4,
   },
   label: {
     color: HEADING,
