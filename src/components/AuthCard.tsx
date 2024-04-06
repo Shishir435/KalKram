@@ -1,23 +1,23 @@
-import {Alert, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import InterText from './InterText';
-import Button from './Button';
 import {BG_PRIMARY, HEADING, SUB_HEADING} from '../lib/color';
 import {Icon} from './Icons';
+import {Link} from './Link';
 interface AuthCardProps {
   children?: React.ReactNode;
   pageHeading: string;
   pageSubHeading: string;
   authDescription: string;
-  AuthActionTitle: string;
-  AuthAction: () => void;
+  authActionTitle: string;
+  authAction: () => void;
 }
 const AuthCard = ({
   children,
   pageHeading,
   pageSubHeading,
-  AuthAction,
-  AuthActionTitle,
+  authAction,
+  authActionTitle,
   authDescription,
 }: AuthCardProps) => {
   return (
@@ -27,9 +27,6 @@ const AuthCard = ({
         <InterText style={styles.subHeading}>{pageSubHeading}</InterText>
       </View>
       <View>{children}</View>
-      <View>
-        <Button title="button" onPress={() => Alert.alert('hello ji')} />
-      </View>
       <View style={styles.divider}>
         <View style={styles.line} />
         <InterText>Or signin with </InterText>
@@ -42,9 +39,7 @@ const AuthCard = ({
       </View>
       <View style={styles.footer}>
         <InterText style={styles.authDescription}>{authDescription}</InterText>
-        <TouchableOpacity onPress={AuthAction}>
-          <InterText style={styles.authTitle}>{AuthActionTitle}</InterText>
-        </TouchableOpacity>
+        <Link title={authActionTitle} onPress={authAction} />
       </View>
     </View>
   );
@@ -55,11 +50,11 @@ export default AuthCard;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 24,
-    marginTop: 32,
+    marginTop: 64,
     gap: 4,
   },
   heading: {
-    fontSize: 32,
+    fontSize: 40, //figma 32
     fontWeight: 'bold',
     color: HEADING,
     lineHeight: 40,
@@ -103,9 +98,11 @@ const styles = StyleSheet.create({
   authDescription: {
     fontSize: 14,
     color: HEADING,
+    fontWeight: 'bold',
   },
   authTitle: {
     color: BG_PRIMARY,
     fontSize: 14,
+    textAlign: 'center',
   },
 });

@@ -1,15 +1,24 @@
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  TextStyle,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ViewStyle,
+} from 'react-native';
 import React from 'react';
 import InterText from './InterText';
 import {BG_PRIMARY} from '../lib/color';
-interface ButtonProp {
+interface ButtonProp extends TouchableOpacityProps {
   title: string;
   onPress: () => void;
+  buttonStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
-const Button = ({title, onPress}: ButtonProp) => {
+const Button = ({title, onPress, buttonStyle, textStyle}: ButtonProp) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <InterText style={styles.text}>{title}</InterText>
+    <TouchableOpacity style={[styles.container, buttonStyle]} onPress={onPress}>
+      <InterText style={[styles.text, textStyle]}>{title}</InterText>
     </TouchableOpacity>
   );
 };
