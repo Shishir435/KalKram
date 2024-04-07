@@ -45,7 +45,11 @@ const Router = () => {
       {isLoggedIn ? (
         <Stack.Navigator>
           <Stack.Group>
-            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{headerShown: false}}
+            />
           </Stack.Group>
         </Stack.Navigator>
       ) : (

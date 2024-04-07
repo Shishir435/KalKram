@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {AppwriteContext} from '../../appwrite/appwriteContext';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -40,30 +40,34 @@ const Home = ({navigation}: HomeScreenProps) => {
   }, [appwrite, isLoggedIn, navigation]);
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
-      {error && <ErrorComponent error={error} />}
-      {user && <InterText>{user.username}</InterText>}
-      <Button
-        title="Logout"
-        onPress={() => {
-          appwrite
-            .logout()
-            .then(() => {
-              setIsLoggedIn(false);
-              Snackbar.show({
-                text: 'Logout successfull',
-                duration: Snackbar.LENGTH_SHORT,
+      <ImageBackground
+        source={require('../../../assets/images/homebg.png')}
+        style={styles.imageBackground}>
+        <Text>Home</Text>
+        {error && <ErrorComponent error={error} />}
+        {user && <InterText>{user.username}</InterText>}
+        <Button
+          title="Logout"
+          onPress={() => {
+            appwrite
+              .logout()
+              .then(() => {
+                setIsLoggedIn(false);
+                Snackbar.show({
+                  text: 'Logout successfull',
+                  duration: Snackbar.LENGTH_SHORT,
+                });
+                // navigation.navigate('Login');
+              })
+              .catch((err: any) => {
+                Snackbar.show({
+                  text: err.message,
+                  duration: Snackbar.LENGTH_LONG,
+                });
               });
-              // navigation.navigate('Login');
-            })
-            .catch((err: any) => {
-              Snackbar.show({
-                text: err.message,
-                duration: Snackbar.LENGTH_LONG,
-              });
-            });
-        }}
-      />
+          }}
+        />
+      </ImageBackground>
     </View>
   );
 };
@@ -73,7 +77,13 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
+  imageBackground: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    resizeMode: 'cover',
   },
 });
