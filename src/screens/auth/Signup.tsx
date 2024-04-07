@@ -1,18 +1,26 @@
-import {StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
-import AuthContainer from '../../components/AuthContainer';
-import {Controller, SubmitHandler, useForm} from 'react-hook-form';
-import {SignupSchema, SignupSchemaType} from '../../lib/zodSchema';
 import {zodResolver} from '@hookform/resolvers/zod';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
 import CheckBox from '@react-native-community/checkbox';
-import {BG_PRIMARY, HEADING} from '../../lib/color';
-import {Link} from '../../components/Link';
+import React, {useContext, useEffect} from 'react';
+import {Controller, SubmitHandler, useForm} from 'react-hook-form';
+import {StyleSheet, View} from 'react-native';
+import AuthContainer from '../../components/AuthContainer';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
 import InterText from '../../components/InterText';
+import {Link} from '../../components/Link';
+import {BG_PRIMARY, HEADING} from '../../lib/color';
+import {SignupSchema, SignupSchemaType} from '../../lib/zodSchema';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RoutesParamList} from '../../types';
+import {AppwriteContext} from '../../appwrite/appwriteContext';
+import Snackbar from 'react-native-snackbar';
 
-const Signup = () => {
-  const [checkboxState, setCheckboxState] = useState(false);
+type SignupScreenProps = NativeStackScreenProps<
+  RoutesParamList,
+  keyof RoutesParamList
+>;
+const Signup = ({navigation}: SignupScreenProps) => {
+  const {appwrite, isLoggedIn, setIsLoggedIn} = useContext(AppwriteContext);
   const {
     handleSubmit,
     reset,
@@ -27,11 +35,29 @@ const Signup = () => {
       policy: false,
     },
   });
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigation.navigate('Home');
+    }
+  }, [isLoggedIn, navigation]);
   const onSubmit: SubmitHandler<SignupSchemaType> = data => {
     const response = SignupSchema.safeParse(data);
     console.log(response);
     if (response.success) {
       reset();
+      appwrite
+        .createAccount(data)
+        .then(resp => {
+          if (resp) {
+            setIsLoggedIn(true);
+          }
+        })
+        .catch((err: any) => {
+          Snackbar.show({
+            text: err.message,
+            duration: Snackbar.LENGTH_LONG,
+          });
+        });
     }
   };
   return (
@@ -40,7 +66,9 @@ const Signup = () => {
       pageSubHeading="Create an account to start looking for the food you like"
       authDescription="Have an acount"
       authActionTitle="Login"
-      authAction={() => {}}>
+      authAction={() => {
+        navigation.navigate('Login');
+      }}>
       <View style={styles.container}>
         <Controller
           name="email"
@@ -92,12 +120,12 @@ const Signup = () => {
           name="policy"
           control={control}
           rules={{required: true}}
-          render={({field: {}}) => (
+          render={({field: {value, onChange}}) => (
             <View style={styles.policyContainer}>
               <CheckBox
                 tintColors={{true: BG_PRIMARY}}
-                value={checkboxState}
-                onValueChange={newVal => setCheckboxState(newVal)}
+                value={value}
+                onValueChange={onChange}
               />
               <InterText style={styles.policyText}>I agree With</InterText>
               <Link
@@ -130,7 +158,7 @@ export default Signup;
 const styles = StyleSheet.create({
   container: {
     gap: 1,
-    marginTop: 32,
+    // marginTop: 16,
   },
   button: {
     marginVertical: 16,

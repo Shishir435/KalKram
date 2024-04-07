@@ -1,24 +1,12 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-// import ForgetPassword from './screens/auth/ForgetPassword';
-// import EmailVarification from './screens/auth/EmailVarification';
-import ResetPassword from './screens/auth/ResetPassword';
-// import Login from './screens/auth/Login';
-// import Signup from './screens/auth/Signup';
+import Router from './routes/Router';
+import AppwriteProvider from './appwrite/appwriteContext';
 const App = () => {
   return (
-    <View style={styles.container}>
-      {/* <Login /> */}
-      {/* <Signup /> */}
-      {/* <ForgetPassword /> */}
-      {/* <EmailVarification /> */}
-      <ResetPassword />
-    </View>
+    <AppwriteProvider>
+      <Router />
+    </AppwriteProvider>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {},
-});

@@ -7,7 +7,6 @@ const appwriteClient = new Client();
 
 class AppwriteService {
   account;
-
   constructor() {
     appwriteClient
       .setEndpoint(APPWRITE_ENDPOINT)

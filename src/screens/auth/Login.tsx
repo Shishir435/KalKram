@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {StyleSheet, View} from 'react-native';
 import AuthContainer from '../../components/AuthContainer';
@@ -7,7 +7,16 @@ import Input from '../../components/Input';
 import {Link} from '../../components/Link';
 import {LoginSchema, LoginSchemaType} from '../../lib/zodSchema';
 import {zodResolver} from '@hookform/resolvers/zod';
-const Login = () => {
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RoutesParamList} from '../../types';
+import {AppwriteContext} from '../../appwrite/appwriteContext';
+import Snackbar from 'react-native-snackbar';
+type LoginScreenProp = NativeStackScreenProps<
+  RoutesParamList,
+  keyof RoutesParamList
+>;
+const Login = ({navigation}: LoginScreenProp) => {
+  const {appwrite, isLoggedIn, setIsLoggedIn} = useContext(AppwriteContext);
   const {
     handleSubmit,
     control,
@@ -20,11 +29,29 @@ const Login = () => {
       password: '',
     },
   });
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigation.navigate('Home');
+    }
+  }, [appwrite, isLoggedIn, navigation]);
   const onSubmit: SubmitHandler<LoginSchemaType> = data => {
-    console.log(data);
     const response = LoginSchema.safeParse(data);
-    console.log('resp', response);
-    reset();
+    if (response.success) {
+      reset();
+      appwrite
+        .login(data)
+        .then(resp => {
+          if (resp) {
+            setIsLoggedIn(true);
+          }
+        })
+        .catch((err: any) => {
+          Snackbar.show({
+            text: err.message,
+            duration: Snackbar.LENGTH_LONG,
+          });
+        });
+    }
   };
   return (
     <AuthContainer
@@ -32,7 +59,9 @@ const Login = () => {
       pageSubHeading="Please sign in to your account"
       authDescription="Don't have an account?"
       authActionTitle="Register"
-      authAction={() => {}}>
+      authAction={() => {
+        navigation.navigate('Signup');
+      }}>
       <View style={styles.container}>
         <Controller
           name="email"
@@ -68,7 +97,7 @@ const Login = () => {
         <Link
           title="Forget Password?"
           onPress={() => {
-            console.log('Bhul gye');
+            console.log('hehh');
           }}
         />
         <Button
