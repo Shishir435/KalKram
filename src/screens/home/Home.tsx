@@ -3,11 +3,13 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import {ImageBackground, StyleSheet, View} from 'react-native';
 import Snackbar from 'react-native-snackbar';
 import {AppwriteContext} from '../../appwrite/appwriteContext';
+import BottomSheetComponent from '../../components/BottomSheet';
 import Button from '../../components/Button';
 import ErrorComponent from '../../components/Errro';
+import HomeModal from '../../components/HomeModal';
 import InterText from '../../components/InterText';
 import {RoutesParamList} from '../../types';
-import BottomSheetComponent from '../../components/BottomSheet';
+import Carousel from '../../components/Carousel';
 
 type HomeScreenProps = NativeStackScreenProps<
   RoutesParamList,
@@ -17,10 +19,28 @@ interface RBSheetRef {
   open: () => void;
   close: () => void;
 }
+const data = [
+  {
+    heading: '1We serve incomparable delicacies',
+    subHeading: `All the best restaurants with their top menu waiting for you, they
+    cant't wait for your order!!`,
+  },
+  {
+    heading: '2We serve incomparable delicacies',
+    subHeading: `All the best restaurants with their top menu waiting for you, they
+    cant't wait for your order!!`,
+  },
+  {
+    heading: '3We serve incomparable delicacies',
+    subHeading: `All the best restaurants with their top menu waiting for you, they
+    cant't wait for your order!!`,
+  },
+];
 const Home = ({navigation}: HomeScreenProps) => {
   const refRBSheet = useRef<RBSheetRef | null>(null);
   const {appwrite, isLoggedIn, setIsLoggedIn} = useContext(AppwriteContext);
   const [showBottomSheet, setShowBottomSheet] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState('');
   const [user, setUser] = useState({
     username: '',
@@ -59,6 +79,7 @@ const Home = ({navigation}: HomeScreenProps) => {
             if (showBottomSheet) {
               refRBSheet.current?.open();
               setShowBottomSheet(false);
+              setShowModal(true);
             }
           }
         })
@@ -74,13 +95,20 @@ const Home = ({navigation}: HomeScreenProps) => {
       <ImageBackground
         source={require('../../../assets/images/homebg.png')}
         style={styles.imageBackground}>
-        {error && <ErrorComponent error={error} />}
-        {user && <InterText>{user.username}</InterText>}
-        <Button
-          title="Logout"
-          buttonStyle={styles.button}
-          onPress={handleLogout}
-        />
+        <View>
+          {error && <ErrorComponent error={error} />}
+          {user && <InterText>{`username: ${user.username}`}</InterText>}
+          <Button
+            title="Logout"
+            buttonStyle={styles.button}
+            onPress={handleLogout}
+          />
+          <Button
+            title="showModal"
+            buttonStyle={styles.button}
+            onPress={() => setShowModal(prev => !prev)}
+          />
+        </View>
         <View>
           <BottomSheetComponent
             imageSource={require('../../../assets/images/Illustration-Success.png')}
@@ -91,6 +119,14 @@ const Home = ({navigation}: HomeScreenProps) => {
             sheetBtnOnPress={handleLogout}
           />
         </View>
+        <HomeModal showModal={showModal} setShowModal={setShowModal}>
+          <Carousel
+            data={data}
+            backButtonTItle="Skip"
+            onBack={() => setShowModal(false)}
+            onEndReach={() => setShowModal(false)}
+          />
+        </HomeModal>
       </ImageBackground>
     </View>
   );
@@ -109,6 +145,7 @@ const styles = StyleSheet.create({
   imageBackground: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'space-between',
     resizeMode: 'cover',
   },
 });
