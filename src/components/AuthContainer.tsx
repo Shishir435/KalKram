@@ -33,7 +33,7 @@ const AuthContainer = ({
         <>
           <View style={styles.divider}>
             <View style={styles.line} />
-            <InterText>Or signin with </InterText>
+            <InterText style={styles.dividerText}>Or signin with </InterText>
             <View style={styles.line} />
           </View>
           <View style={styles.socials}>
@@ -77,6 +77,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 20,
+  },
+  dividerText: {
+    color: '#000',
   },
   line: {
     flex: 1,
