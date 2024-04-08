@@ -44,11 +44,11 @@ const Signup = ({navigation}: SignupScreenProps) => {
     const response = SignupSchema.safeParse(data);
     console.log(response);
     if (response.success) {
-      reset();
       appwrite
         .createAccount(data)
         .then(resp => {
           if (resp) {
+            reset();
             setIsLoggedIn(true);
           }
         })

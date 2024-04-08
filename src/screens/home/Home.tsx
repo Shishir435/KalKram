@@ -108,6 +108,11 @@ const Home = ({navigation}: HomeScreenProps) => {
             buttonStyle={styles.button}
             onPress={() => setShowModal(prev => !prev)}
           />
+          <Button
+            title="showSheet"
+            buttonStyle={styles.button}
+            onPress={() => setShowBottomSheet(prev => !prev)}
+          />
         </View>
         <View>
           <BottomSheetComponent

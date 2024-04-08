@@ -89,6 +89,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('kalkram-release-key.keystore')
+            storePassword 'asdfqwer'
+            keyAlias 'kalkramKey'
+            keyPassword 'asdfqwer'
+        }
     }
     buildTypes {
         debug {
@@ -97,7 +103,13 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "Kalkram-${variant.versionName}.apk"
+                }
+            }
             signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

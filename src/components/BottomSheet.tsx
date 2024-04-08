@@ -42,6 +42,8 @@ const BottomSheetComponent = forwardRef(
       <RBSheet
         ref={bottomSheetRef}
         closeOnPressMask={true}
+        closeOnPressBack={true}
+        dragOnContent
         height={500}
         customStyles={{
           container: {
@@ -56,11 +58,12 @@ const BottomSheetComponent = forwardRef(
         }}>
         <>
           <Pressable
-            style={styles.sheetCloseButton}
+            style={styles.sheetCloseButtonContainer}
             onPress={() => {
               bottomSheetRef.current?.close();
-            }}
-          />
+            }}>
+            <View style={styles.sheetCloseButton} />
+          </Pressable>
           <Image source={imageSource} style={styles.sheetImage} />
           <View style={styles.sheetTextContainer}>
             <InterText style={styles.sheetHeading}>{sheetHeading}</InterText>
@@ -80,6 +83,11 @@ const BottomSheetComponent = forwardRef(
 );
 
 const styles = StyleSheet.create({
+  sheetCloseButtonContainer: {
+    height: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   sheetCloseButton: {
     width: 60,
     height: 4,

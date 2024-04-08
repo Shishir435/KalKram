@@ -30,6 +30,7 @@ export const Input = ({
       <View style={styles.eyeParent}>
         <TextInput
           placeholder={placeholder}
+          placeholderTextColor="#878787"
           onBlur={onBlur}
           onChangeText={onChangeText}
           value={value}
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 4,
     paddingLeft: 16,
+    color: '#000',
   },
   eyeParent: {
     position: 'relative',

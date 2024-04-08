@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {BG_PRIMARY} from '../lib/color';
-import InterText from './InterText';
 import CircleWithArrow from './CircleWithArrow';
+import InterText from './InterText';
 interface CarouselProps {
   data: {
     heading: string;
@@ -24,6 +24,28 @@ const Carousel = ({
   onEndReach,
 }: CarouselProps) => {
   const [index, setIndex] = useState(0);
+  const handleBack = () => {
+    setIndex(prev => {
+      if (prev === 0) {
+        return data.length - 1;
+      } else {
+        return prev - 1;
+      }
+    });
+  };
+  const handleNext = () => {
+    setIndex(prev => {
+      if (prev === data.length - 1) {
+        return 0;
+      } else {
+        return prev + 1;
+      }
+    });
+    // onNext button function
+    if (onNext) {
+      onNext();
+    }
+  };
   return (
     <View style={styles.carouselContainer}>
       <View style={styles.textContainer}>
@@ -53,13 +75,7 @@ const Carousel = ({
           <Pressable
             style={styles.btnPressableContainer}
             onPress={() => {
-              setIndex(prev => {
-                if (prev === 0) {
-                  return data.length - 1;
-                } else {
-                  return prev - 1;
-                }
-              });
+              handleBack();
               // onBak button function
               if (onBack) {
                 onBack();
@@ -80,17 +96,7 @@ const Carousel = ({
           <Pressable
             style={styles.btnPressableContainer}
             onPress={() => {
-              setIndex(prev => {
-                if (prev === data.length - 1) {
-                  return 0;
-                } else {
-                  return prev + 1;
-                }
-              });
-              // onBak button function
-              if (onNext) {
-                onNext();
-              }
+              handleNext();
             }}>
             <InterText style={styles.button}>
               {nextBtnTitle || 'Next'}
@@ -162,8 +168,14 @@ const styles = StyleSheet.create({
   },
   btnPressableContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
     gap: 8,
+    padding: 10,
+    height: 80,
+    width: 100,
+    // borderWidth: 1,
+    // borderColor: '#fff',
   },
   rightArrow: {
     color: '#fff',

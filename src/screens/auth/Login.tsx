@@ -37,12 +37,12 @@ const Login = ({navigation}: LoginScreenProp) => {
   const onSubmit: SubmitHandler<LoginSchemaType> = data => {
     const response = LoginSchema.safeParse(data);
     if (response.success) {
-      reset();
       appwrite
         .login(data)
         .then(resp => {
           if (resp) {
             setIsLoggedIn(true);
+            reset();
           }
         })
         .catch((err: any) => {
