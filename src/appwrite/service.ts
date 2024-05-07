@@ -1,10 +1,15 @@
-import {ID, Account, Client} from 'appwrite';
+import {Account, Client, ID} from 'appwrite';
 import Snackbar from 'react-native-snackbar';
 import {APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID} from '../../env';
-import {LoginSchemaType, SignupSchemaType} from '../lib/zodSchema';
+import {
+  ForgetPassowrdSchemaType,
+  LoginSchemaType,
+  OtpSchemaType,
+  SignupSchemaType,
+} from '../lib/zodSchema';
 
 const appwriteClient = new Client();
-
+type VerifyOTPType = ForgetPassowrdSchemaType & OtpSchemaType;
 class AppwriteService {
   account;
   constructor() {
@@ -68,6 +73,30 @@ class AppwriteService {
         duration: Snackbar.LENGTH_LONG,
       });
       console.log('Appwrite Service :: LogoutAccount: ', error);
+    }
+  }
+  async sendOTP({email}: ForgetPassowrdSchemaType) {
+    try {
+      return await this.account.createEmailToken(ID.unique(), email);
+    } catch (error) {
+      Snackbar.show({
+        text: String(error),
+        duration: Snackbar.LENGTH_LONG,
+      });
+      console.log('Appwrite Service :: SendOTP: ', error);
+    }
+  }
+
+  // verify OTP for the specified email address
+  async verifyOTP({email, otp}: VerifyOTPType) {
+    try {
+      return await this.account.updateVerification(email, otp);
+    } catch (error) {
+      Snackbar.show({
+        text: String(error),
+        duration: Snackbar.LENGTH_LONG,
+      });
+      console.log('Appwrite Service :: VerifyOTP: ', error);
     }
   }
 }

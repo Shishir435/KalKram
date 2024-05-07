@@ -41,6 +41,7 @@ const Login = ({navigation}: LoginScreenProp) => {
         .login(data)
         .then(resp => {
           if (resp) {
+            console.log(resp);
             setIsLoggedIn(true);
             reset();
           }
@@ -97,7 +98,7 @@ const Login = ({navigation}: LoginScreenProp) => {
         <Link
           title="Forget Password?"
           onPress={() => {
-            console.log('hehh');
+            navigation.navigate('ForgetPassword');
           }}
         />
         <Button

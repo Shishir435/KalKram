@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import AuthContainer from '../../components/AuthContainer';
 import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {
@@ -9,8 +9,16 @@ import {
 import {zodResolver} from '@hookform/resolvers/zod';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-
-const ForgetPassword = () => {
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RoutesParamList} from '../../types';
+import {AppwriteContext} from '../../appwrite/appwriteContext';
+import Snackbar from 'react-native-snackbar';
+type ForgetPasswordScreenProps = NativeStackScreenProps<
+  RoutesParamList,
+  keyof RoutesParamList
+>;
+const ForgetPassword = ({navigation}: ForgetPasswordScreenProps) => {
+  const {appwrite} = useContext(AppwriteContext);
   const {
     handleSubmit,
     control,
@@ -27,6 +35,17 @@ const ForgetPassword = () => {
     console.log(response);
     if (response.success) {
       reset();
+      appwrite.sendOTP({email: response.data.email}).then(resp => {
+        if (resp) {
+          Snackbar.show({
+            text: `Otp is sent to your ${response.data.email}`,
+            duration: Snackbar.LENGTH_LONG,
+          });
+          navigation.navigate('EmailVarification', {
+            email: response.data.email,
+          });
+        }
+      });
     }
   };
   return (

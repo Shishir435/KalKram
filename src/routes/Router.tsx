@@ -8,6 +8,7 @@ import Home from '../screens/home/Home';
 import Signup from '../screens/auth/Signup';
 import Login from '../screens/auth/Login';
 import {RoutesParamList} from '../types';
+import ForgetPassword from '../screens/auth/ForgetPassword';
 
 const Stack = createNativeStackNavigator<RoutesParamList>();
 
@@ -63,6 +64,11 @@ const Router = () => {
             <Stack.Screen
               name="Login"
               component={Login}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="ForgetPassword"
+              component={ForgetPassword}
               options={{headerShown: false}}
             />
           </Stack.Group>

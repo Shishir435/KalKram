@@ -12,7 +12,16 @@ import {Link} from '../../components/Link';
 import Timer from '../../components/Timer';
 import Icon from 'react-native-vector-icons/Feather';
 import ErrorComponent from '../../components/Errro';
-const EmailVarification = () => {
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RoutesParamList} from '../../types';
+type EmailVarificationScreenProps = NativeStackScreenProps<
+  RoutesParamList,
+  keyof RoutesParamList
+>;
+const EmailVarification = ({
+  routes,
+  navigation,
+}: EmailVarificationScreenProps) => {
   const otpRef = useRef<any>(null);
   const [reset, setReset] = useState(false);
   const {
